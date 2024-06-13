@@ -11,7 +11,7 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
   styleUrls: ['./manage-user.component.scss'],
 })
 export class ManageUserComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'email', 'contactNumber', 'status'];
+  displayedColumns: string[] = ['name', 'email', 'phone', 'bonus', 'status'];
   dataSource: any;
   responseMessage: any;
 
@@ -30,6 +30,7 @@ export class ManageUserComponent implements OnInit {
     this.userService.getUsers().subscribe(
       (resp: any) => {
         this.ngxService.stop();
+        console.log(JSON.stringify(resp.data))
         this.dataSource = new MatTableDataSource(resp.data);
       },
       (error) => {
@@ -63,6 +64,27 @@ export class ManageUserComponent implements OnInit {
         this.snackBar.openSnackBar(this.responseMessage, 'success');
       },
       (error) => {
+        this.ngxService.stop();
+        if (error.error?.message) {
+          this.responseMessage = error.error?.message;
+        } else {
+          this.responseMessage = GlobalConstants.genericError;
+        }
+        this.snackBar.openSnackBar(this.responseMessage, GlobalConstants.error);
+      }
+    );
+  }
+
+  HandleBonusEvent() {
+    
+    this.userService.bonus().subscribe(
+      (resp: any) => {
+        this.ngxService.stop();
+        this.tableData();
+        this.responseMessage = resp?.message;
+        this.snackBar.openSnackBar(this.responseMessage, 'success');
+      },
+      (error: any) => {
         this.ngxService.stop();
         if (error.error?.message) {
           this.responseMessage = error.error?.message;

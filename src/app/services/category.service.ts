@@ -24,4 +24,11 @@ export class CategoryService {
   getCategories() {
     return this.http.get(`${this.url}/category/get/`);
   }
+
+  delete(id: any) {
+    return this.http.delete(
+      `${this.url}/category/delete/${id}`,
+      this.jsonHeader
+    );
+  }
 }

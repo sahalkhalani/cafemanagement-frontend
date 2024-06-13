@@ -48,4 +48,8 @@ export class UserService {
   update(data: any) {
     return this.http.patch(`${this.url}/user/update`, data, this.jsonHeader);
   }
+
+  bonus() {
+    return this.http.get(`${this.url}/user/bonus`)
+  }
 }
