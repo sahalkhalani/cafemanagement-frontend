@@ -27,6 +27,7 @@ export class ViewBillComponent implements OnInit {
   ];
   dataSource: any;
   responseMessage: any;
+  revenue: any;
 
   constructor(
     private billService: BillService,
@@ -45,6 +46,7 @@ export class ViewBillComponent implements OnInit {
     this.billService.getBills().subscribe(
       (resp: any) => {
         this.ngxService.stop();
+        this.revenue = resp.revenue;
         this.dataSource = new MatTableDataSource(resp.data);
       },
       (error) => {
